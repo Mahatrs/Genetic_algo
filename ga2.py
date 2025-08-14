@@ -21,11 +21,6 @@ def solve_ik(target):
 
 
 #--------------------------------------------------------------
-#tcp_target = [0.7, 0.3, 0.5]     # Example TCP position in meters
-
-#ik_solution = solve_ik(tcp_target)
-#print("IK Solution (joint values in radians):", ik_solution)
-#--------------------------------------------------------------
 
 
 def get_jacobian(joint_values):
@@ -49,9 +44,6 @@ def get_jacobian(joint_values):
     return J
 
 #---------------------------------------------------------------
-#J = get_jacobian([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
-#print(J)
-#---------------------------------------------------------------
 
 
 def compute_manipulability(joint_values):
@@ -64,10 +56,6 @@ def compute_manipulability(joint_values):
     return manipulability
 
 #----------------------------------------------------------------
-#compute_manipulability = compute_manipulability([0.2, -0.2, 0.3, -0.3, 0.1, -0.1, 0.2])
-#print("Manipulability:", compute_manipulability)
-#---------------------------------------------------------------
-
 
 
 JOINT_LIMITS = [
@@ -110,22 +98,12 @@ def compute_joint_limit_distance(joint_values):
 
 
 #----------------------------------------------------------------
-joinyt_limit_distance = compute_joint_limit_distance([0.4, 0.7, 0.7, 0.3, 0.1, 0.1, 0.3])
-print("Joint Limit Distance:", joinyt_limit_distance) 
-# if norm_dist = 0.5 then joint is centered if close to zero then joint is close to limit, so same thing for the return value the more is close to 0 the more it is close to the limit
-#----------------------------------------------------------------
-
-
 
 def compute_singularity_metric(joint_values):
     J = get_jacobian(joint_values)
     cond_number = np.linalg.cond(J, 2)
     return 1.0/min(1000, cond_number)
 
-
-#----------------------------------------------------------------
-#singularity_metric = compute_singularity_metric([0.2, -0.2, 0.3, -0.3, 0.1, -0.1, 0.2])
-#print("Singularity Metric:", singularity_metric)
 #----------------------------------------------------------------
 
 
@@ -146,11 +124,6 @@ def objective(tcp_target):
 
 
 #---------------------------------------------------------------
-# Example usage:
-#score = objective([0.7, 0.3, 0.5])
-#print("Objective Score:", score)
-#---------------------------------------------------------------
-
 
 def decode(bounds, n_bits, bitstring):
     decoded = []
@@ -271,8 +244,6 @@ print("Best objective score:", best_eval)
 np.save('all_positions.npy', np.array(all_positions))
 np.save('all_scores.npy', np.array(all_scores))
 
-# --- Plot heatmap of target positions ---
-
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
@@ -296,7 +267,6 @@ ax.legend()
 ax.set_title('Heatmap of Target Positions (Genetic Algorithm)')
 plt.show()
 
-# Convert to numpy arrays for easy indexing
 all_scores = np.array(all_scores)
 all_manipulability = np.array(all_manipulability)
 all_joint_limit_dist = np.array(all_joint_limit_dist)
